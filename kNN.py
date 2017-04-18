@@ -6,6 +6,16 @@ def createDataSet():
     labels = ['A','A','B','B']
     return group,labels
 
+def autoNorm(dataSet):
+    minVals = dataSet.min(0) # 每一维最小值 
+    maxVals = dataSet.max(0) # 每一维最大值
+    ranges = maxVals - minVals
+    normDataSet = zeros(shape(dataSet)) # 全0矩阵 shape获取矩阵形状 zeros补0
+    m = dataSet.shape[0] # 矩阵第一维长度
+    normDataSet = dataSet - tile(minVals,(m,1)) # tile 用minVals创建矩阵,维度跟minVals一样,矩阵高度为m . tile第二个参数里的m为在列上补齐m行，参数里的1,为在矩阵行上只有1次
+    normDataSet = normDataSet / tile(ranges,(m,1)) # 归一化处理
+    return normDataSet,ranges,minVals
+
 def classify0(inX,dataSet,labels,k):
     dataSetSize = dataSet.shape[0]
     diffMat = tile(inX,(dataSetSize,1)) - dataSet
