@@ -1,3 +1,4 @@
+#-*- coding:utf-8 -*-
 from numpy import *
 import operator
 
@@ -54,10 +55,10 @@ def datingClassTest():
     errorCount = 0.0
     for i in range(numTestVecs):
         classifierResult = classify0(normMat[i,:],normMat[numTestVecs:m,:],datingLabels[numTestVecs:m],3)
-        print("the classifier came back with %d, the real answer is: %d" % (classifierResult,datingLabels[i]))
+        print "the classifier came back with %d, the real answer is: %d" % (classifierResult,datingLabels[i])
         if(classifierResult != datingLabels[i]):
             errorCount += 1.0
-    print("the total error rate is :%f" % (errorCount / float(numTestVecs)))
+    print "the total error rate is :%f" % (errorCount / float(numTestVecs))
 
 def classifyPerson():
     resultList = ['not at all','in small doses','in large doses']
@@ -68,4 +69,13 @@ def classifyPerson():
     normMat,ranges,minVals = autoNorm(datingDataMat)
     inArr = array([ffMiles,percentTats,iceCream])
     classifierResult = classify0((inArr - minVals) / ranges, normMat, datingLabels,3)
-    print("You will probably like this person: ",resultList[classifierResult - 1])
+    print "You will probably like this person: ",resultList[classifierResult - 1]
+
+def img2vector(filename):
+    returnVect = zeros((1,1024))
+    fr = open(filename)
+    for i in range(32):
+        lineStr = fr.readline()
+        for j in range(32):
+            returnVect[0,32*i+j] = int(lineStr[j])
+    return returnVect
