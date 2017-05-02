@@ -15,13 +15,17 @@ def plotMidText(cntrPt,parentPt,txtString):
     createPlot.ax1.text(xMid,yMid,txtString)
 
 def plotTree(myTree,parentPt,nodeTxt):
-    numLeafs = getNumLeafs(myTree)
+    # 计算宽高
+    numLeafs = getNumLeafs(myTree) 
     depth = getTreeDepth(myTree)
     firstStr = myTree.keys()[0]
-    cntrPt = (plotTree.xOff + (1.0 + float(numLeafs)) / 2.0 / plotTree.totalW,plotTree.yOff)
+    # 根据子节点的个数确定当前节点的位置
+    cntrPt = (plotTree.xOff + (1.0 + float(numLeafs)) / 2.0 / plotTree.totalW,plotTree.yOff) 
+    # 标记子节点属性值
     plotMidText(cntrPt,parentPt,nodeTxt)
     plotNode(firstStr,cntrPt,parentPt,decisionNode)
     secondDict = myTree[firstStr]
+    # 减少y偏移
     plotTree.yOff = plotTree.yOff - 1.0 / plotTree.totalD
     for key in secondDict.keys():
         if type(secondDict[key]).__name__ == 'dict':
@@ -56,6 +60,7 @@ def createPlot(inTree):
     plotTree(inTree,(0.5,1.0),'')
     plt.show()
 
+# 获取叶子节点的数目
 def getNumLeafs(myTree):
     numLeafs = 0
     firstStr = myTree.keys()[0]
@@ -67,6 +72,7 @@ def getNumLeafs(myTree):
             numLeafs += 1
     return numLeafs
 
+# 获取树的层数
 def getTreeDepth(myTree):
     maxDepth = 0
     firstStr = myTree.keys()[0]
